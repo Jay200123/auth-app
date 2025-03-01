@@ -19,6 +19,7 @@ type User = {
 
 type AuthState = {
   user: User | null;
+  token: string | null; 
   isAuthorized: boolean
 };
 
