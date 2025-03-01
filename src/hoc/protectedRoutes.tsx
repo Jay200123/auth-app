@@ -1,5 +1,5 @@
 "use client";
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useStore } from "@/state/store";
 
@@ -17,6 +17,7 @@ const protectedRoutes = (WrappedComponents: any, userRole: string[]) => {
       if (user?.role && !userRole.includes(user.role)) {
         router.replace("/unauthorized");
       }
+
       return () => {};
     }, [router]);
 
@@ -27,3 +28,5 @@ const protectedRoutes = (WrappedComponents: any, userRole: string[]) => {
     return <WrappedComponents {...props} />;
   };
 };
+
+export default protectedRoutes;
