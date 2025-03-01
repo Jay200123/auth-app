@@ -5,19 +5,19 @@ import { PATH } from "@/constants";
 
 export const createAuthApi: StateCreator<AuthApiSlice> = (set) => ({
   user: null,
+  token: "",
   isAuthorized: false,
   login: async (payload) => {
     const res = await api.post(PATH.LOGIN, payload);
     set({
       user: res?.data?.details,
+      token: res?.data?.access,
       isAuthorized: true,
     });
-    localStorage.setItem("access", res.data.access);
     return res.data;
   },
   logout: async () => {
     await api.post(PATH.LOGOUT);
-    set({ user: null });
-    localStorage.setItem("access", "");
+    set({ user: null, token: "", isAuthorized: false });
   },
 });
