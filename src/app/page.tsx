@@ -1,8 +1,10 @@
 "use client";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
 import { useStore } from "@/state/store";
 
 export default function Home() {
+  const router = useRouter();
   const { login, logout } = useStore();
   const formik = useFormik({
     initialValues: {
@@ -10,8 +12,16 @@ export default function Home() {
       password: "",
     },
     onSubmit: async (values) => {
-      await login(values);
-      window.alert("User Successfully Login");
+      const res = await login(values);
+      if (res?.details?.role === "User") {
+        window.alert("User is User");
+        router.push("/profile");
+        window.alert(`${res?.message}`);
+      } else {
+        window.alert("User is Admin");
+        router.push("/test");
+        window.alert(`${res?.message}`);
+      }
     },
   });
   return (
