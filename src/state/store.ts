@@ -9,7 +9,7 @@ export const useStore = create<Store>()(
       ...createAuthApi(...a),
     }),
     {
-      name: "auth",
+      name: "store",
       storage: createJSONStorage(() => localStorage),
     }
   )
