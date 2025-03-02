@@ -7,10 +7,13 @@ const protectedRoutes = (WrappedComponents: any, userRole: string[]) => {
   return (props: any) => {
     const router = useRouter();
     useEffect(() => {
-      const token = localStorage.getItem("access");
+      const token = useStore.getState().token;
       const user = token ? useStore.getState().user : null;
 
-      if (!token || !user) {
+      if (!token || (!user && !useStore.getState().isAuthorized)) {
+        window.alert(
+          "Warning : You are not authorized to access this page. Please login first."
+        );
         router.replace("/");
       }
 
@@ -21,7 +24,7 @@ const protectedRoutes = (WrappedComponents: any, userRole: string[]) => {
       return () => {};
     }, [router]);
 
-    if (useStore.getState().isAuthorized) {
+    if (!useStore.getState().isAuthorized) {
       return null;
     }
 
